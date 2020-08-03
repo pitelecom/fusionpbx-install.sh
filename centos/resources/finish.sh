@@ -103,6 +103,9 @@ sed -i /etc/freeswitch/autoload_configs/xml_cdr.conf.xml -e s:"{v_pass}:$xml_cdr
 #app defaults
 cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_domains.php
 
+#fix folder permission
+chown -R freeswitch:daemon /var/cache/fusionpbx
+
 #restart services
 systemctl daemon-reload
 systemctl mask wpa_supplicant.service
