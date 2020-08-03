@@ -141,4 +141,5 @@ warning "* NOTE: Please save the above information. *"
 warning "* REBOOT YOUR SERVER TO COMPLETE INSTALL.  *"
 warning "*------------------------------------------*"
 echo ""
-
+echo "   Don't forget to add personal config to Fail2Ban"
+echo ""
