@@ -9,7 +9,8 @@ cd "$(dirname "$0")"
 
 #send a message
 verbose "Configuring FirewallD"
-#ssh should be on by default
+#ssh should be on by default. But if not we start it ;)
+systemctl start firewalld
 
 #configure the firewall
 firewall-cmd --permanent --zone=public --add-service={http,https}

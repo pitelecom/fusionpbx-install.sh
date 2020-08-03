@@ -44,6 +44,9 @@ resources/switch.sh
 #Fail2ban
 resources/fail2ban.sh
 
+#sngrep tool
+resources/sngrep.sh
+
 #restart services
 verbose "Restarting packages for final configuration"
 systemctl daemon-reload
