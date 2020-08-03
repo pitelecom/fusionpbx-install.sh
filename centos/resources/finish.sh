@@ -19,8 +19,8 @@ fi
 export PGPASSWORD=$database_password
 
 #update the database password
-sudo -u postgres /usr/pgsql-9.4/bin/psql -c "ALTER USER fusionpbx WITH PASSWORD '$database_password';"
-sudo -u postgres /usr/pgsql-9.4/bin/psql -c "ALTER USER freeswitch WITH PASSWORD '$database_password';"
+sudo -u postgres /usr/bin/psql -c "ALTER USER fusionpbx WITH PASSWORD '$database_password';"
+sudo -u postgres /usr/bin/psql -c "ALTER USER freeswitch WITH PASSWORD '$database_password';"
 
 #add the config.php
 mkdir -p /etc/fusionpbx
@@ -130,22 +130,8 @@ echo "   The domain name in the browser is used by default as part of the authen
 echo "   If you need to login to a different domain then use username@domain."
 echo "      username: $user_name@$domain_name";
 echo ""
-echo "   Official FusionPBX Training"
-echo "      Fastest way to learn FusionPBX. For more information https://www.fusionpbx.com."
-echo "      Available online and in person. Includes documentation and recording."
-echo ""
-echo "      Location:               Online"
-echo "      Admin Training:          TBA"
-echo "      Advanced Training:       TBA"
-echo "      Continuing Education:    27th August 2020 (1 Day)"
-echo "      Timezone:               https://www.timeanddate.com/weather/usa/idaho"
-echo ""
-echo "   Additional information."
-echo "      https://fusionpbx.com/members.php"
-echo "      https://fusionpbx.com/training.php"
-echo "      https://fusionpbx.com/support.php"
-echo "      https://www.fusionpbx.com"
-echo "      http://docs.fusionpbx.com"
+echo "   DataBase username: fusionpbx"
+echo "   DataBase password: $database_password"
 echo ""
 warning "*------------------------------------------*"
 warning "* NOTE: Please save the above information. *"
