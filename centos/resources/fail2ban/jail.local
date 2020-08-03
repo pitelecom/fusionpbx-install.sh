@@ -1,3 +1,30 @@
+[DEFAULT]
+destemail = youremail@gmail.com
+sender = FSxxx-f2b@<fq-hostname>
+mta = sendmail
+
+backend = auto
+
+ignoreip = 127.0.0.0/8 ::1 
+
+
+#To Ban permanently, here is the rule
+#bantime  = -1
+
+
+[sshd]
+enabled  = true
+port     = ssh
+logpath  = %(sshd_log)s
+filter   = sshd
+action   = iptables-multiport[f2b-sshd, port="22", protocol=tcp]
+           %(mta)s-whois[name=sshd-BAN, dest="%(destemail)s"]
+maxretry = 2
+findtime = 600
+bantime  = 600
+
+
+
 [freeswitch-udp]
 enabled  = true
 port     = 5060,5061,5080,5081
@@ -5,10 +32,10 @@ protocol = all
 filter   = freeswitch
 logpath  = /var/log/freeswitch/freeswitch.log
 action   = iptables-multiport[name=freeswitch-udp, port="5060,5061,5080,5081", protocol=udp]
+           %(mta)s-whois[name=FreeSwitch-tcp, dest="%(destemail)s"]
 maxretry = 5
 findtime = 600
 bantime  = 600
-#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
 
 [freeswitch-tcp]
 enabled  = true
@@ -17,10 +44,10 @@ protocol = all
 filter   = freeswitch
 logpath  = /var/log/freeswitch/freeswitch.log
 action   = iptables-multiport[name=freeswitch-tcp, port="5060,5061,5080,5081", protocol=tcp]
+           %(mta)s-whois[name=FreeSwitch-tcp, dest="%(destemail)s"]
 maxretry = 5
 findtime = 600
 bantime  = 600
-#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
 
 [freeswitch-ip-tcp]
 enabled  = false
@@ -51,6 +78,7 @@ protocol = all
 filter   = freeswitch-dos
 logpath  = /var/log/freeswitch/freeswitch.log
 action   = iptables-multiport[name=freeswitch-dos-udp, port="5060,5061,5080,5081", protocol=udp]
+           %(mta)s-whois[name=FreeSwitch-dos-udp, dest="%(destemail)s"]
 maxretry = 50
 findtime = 30
 bantime  = 6000
@@ -62,32 +90,35 @@ protocol = all
 filter   = freeswitch-dos
 logpath  = /var/log/freeswitch/freeswitch.log
 action   = iptables-multiport[name=freeswitch-dos-tcp, port="5060,5061,5080,5081", protocol=tcp]
+           %(mta)s-whois[name=FreeSwitch-dos-tcp, dest="%(destemail)s"]
 maxretry = 50
 findtime = 30
 bantime  = 6000
 
 [freeswitch-404]
-enabled  = false
+enabled  = true
 port     = 5060,5061,5080,5081
 protocol = all
 filter   = freeswitch-404
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-allports[name=freeswitch-404, protocol=all]
+action   =
+#           iptables-allports[name=freeswitch-404, protocol=all]
+           %(mta)s-whois[name=FreeSwitch-404-INFO_ONLY, dest="%(destemail)s"]
 maxretry = 3
 findtime = 300
 bantime  = 86400
 
-#[fusionpbx]
-#enabled  = true
-#port     = 80,443
-#protocol = tcp
-#filter   = fusionpbx
-#logpath  = /var/log/auth.log
-#action   = iptables-multiport[name=fusionpbx, port="http,https", protocol=tcp]
-#          sendmail-whois[name=fusionpbx, dest=root, sender=fail2ban@example.org] #no smtp server installed
-#maxretry = 10
-#findtime = 600
-#bantime  = 600
+[fusionpbx]
+enabled  = true
+port     = 80,443
+protocol = tcp
+filter   = fusionpbx
+logpath  = /var/log/messages
+action   = iptables-multiport[name=fusionpbx, port="http,https", protocol=tcp]
+           %(mta)s-whois[name=FusionPBX-HTTPs, dest="%(destemail)s"]
+maxretry = 5
+findtime = 600
+bantime  = 600
 
 [nginx-404]
 enabled  = true

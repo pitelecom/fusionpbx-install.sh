@@ -51,3 +51,5 @@ cd $cwd
 
 #send a message
 verbose "PostgreSQL 9.4 installed"
+verbose "DBpassword $password"
+
